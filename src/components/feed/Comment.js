@@ -54,13 +54,15 @@ function Comment({id, author, payload, isMine, photoId }) {
         },
         update: updateDeleteComment,
     })
-    const onDeleteClick = () => {
+    const commentDelete = () => {
         deleteCommentMutation()
     }
     // const cleanedPayload = sanitizeHtml(payload.replace(/#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g, "<mark>$&</mark>"), {allowedTags: ["mark"]})
     return (
         <CommentsContainer>
-            <FatText>{author}</FatText>
+            <Link to={`/users/${author}`}>
+                <FatText>{author}</FatText>
+            </Link>
             {/* <CommentCaption dangerouslySetInnerHTML={{__html: cleanedPayload}}/> */}
             <CommentCaption>
                 {payload.split(" ").map((word, index) => /#[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|\w]+/g.test(word) ? (
@@ -72,7 +74,7 @@ function Comment({id, author, payload, isMine, photoId }) {
                     )
                 )}
             </CommentCaption>
-            {isMine ? <CommentDelete onClick={onDeleteClick}><FontAwesomeIcon style={{color:"tomato"}} icon={faTimes} /></CommentDelete> : null}
+            {isMine ? <CommentDelete onClick={commentDelete}><FontAwesomeIcon style={{color:"tomato"}} icon={faTimes} /></CommentDelete> : null}
         </CommentsContainer>
     )
 }

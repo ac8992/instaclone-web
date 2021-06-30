@@ -10,6 +10,7 @@ import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme, GlobalStyles } from "./styles";
 import routes from "./screen/routes";
 import { HelmetProvider } from "react-helmet-async";
+import Profile from "./screen/Profile";
 
 
 function App() {
@@ -33,6 +34,11 @@ function App() {
                   <SignUp />
                 </Route>
               ) : null}
+              <Route path={`/users/:username`}>
+                <Layout>
+                  <Profile />
+                </Layout>
+              </Route>
               <Route>
                 <NotFound />
               </Route>

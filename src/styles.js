@@ -29,5 +29,6 @@ export const lightTheme = {
     }
     a {
         text-decoration: none;
+        color: inherit;
     }
 `

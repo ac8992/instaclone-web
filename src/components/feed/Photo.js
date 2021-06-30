@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import { faBookmark, faComment, faHeart, faPaperPlane } from "@fortawesome/free-regular-svg-icons";
-import {faHeart as SolidHeart} from "@fortawesome/free-solid-svg-icons";
+import {faHeart as SolidHeart, faTimes} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Avatar from "../auth/Avatar";
 import { FatText } from "../shared";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
+import {Link} from "react-router-dom";
 
 const TOGGLE_LIKE_MUTATION = gql`
   mutation toggleLike($id: Int!) {
@@ -16,6 +17,15 @@ const TOGGLE_LIKE_MUTATION = gql`
     }
   }
 `;
+
+const DELETE_PHOTO_MUTATION = gql`
+    mutation deletePhoto($id: Int!) {
+        deletePhoto(id: $id){
+            ok
+            error
+        }
+    }
+`
 
 const PhotoContainer = styled.div`
     background-color: white;
@@ -63,10 +73,13 @@ const Likes = styled(FatText)`
     display: block;
 `
 
+const PhotoDelete = styled.span `
+    cursor: pointer;
+`
 
 
 
-function Photo({id,user,file,isLiked,likes,caption, commentNumber, comments}) {
+function Photo({id,user,file,isLiked,likes,caption, commentNumber, comments, isMine}) {
     const updateToggleLike = (cache, result ) => {
         const {
             data: {
@@ -133,11 +146,21 @@ function Photo({id,user,file,isLiked,likes,caption, commentNumber, comments}) {
         },
         update: updateToggleLike,
     })
+    const [deletePhotoMutation] = useMutation(DELETE_PHOTO_MUTATION, {
+        variables: {
+            id,
+        },
+    })
     return (
         <PhotoContainer key={id}>
                 <PhotoHeader>
-                    <Avatar url={user.avatar} />
-                    <Username>{user.username}</Username>
+                    <Link to={`/users/${user.username}`} >
+                        <Avatar url={user.avatar} />
+                    </Link>
+                    <Link to={`/users/${user.username}`} >
+                        <Username>{user.username}</Username>
+                    </Link>
+                    {isMine ? <PhotoDelete onClick={deletePhotoMutation}><FontAwesomeIcon style={{color:"tomato"}} icon={faTimes} /></PhotoDelete> : null}
                 </PhotoHeader>
                     <PhotoFile src={file} />
                     <PhotoData>
@@ -176,6 +199,7 @@ Photo.propTypes = {
     file: PropTypes.string.isRequired,
     isLiked: PropTypes.bool.isRequired,
     likes: PropTypes.number.isRequired,
+    isMine: PropTypes.bool.isRequired,
     commentNumber: PropTypes.number,
     comments: PropTypes.arrayOf(
         PropTypes.shape({

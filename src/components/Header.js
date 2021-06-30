@@ -54,7 +54,9 @@ function Header() {
         <SHeader>
             <Wrapper>
                 <Column>
-                    <FontAwesomeIcon icon={faInstagram} size="2x" />
+                    <Link to={"/"} >
+                        <FontAwesomeIcon icon={faInstagram} size="2x" />
+                    </Link>
                 </Column>
                     <Column>
                     {isLoggedIn ? (
@@ -66,7 +68,9 @@ function Header() {
                             <FontAwesomeIcon icon={faCompass} size="2x" />
                         </Icon>
                         <Icon>
-                            <Avatar url={data?.me?.avatar}/>
+                            <Link to={`/users/${data?.me?.username}`} >
+                                <Avatar url={data?.me?.avatar}/>
+                            </Link>
                         </Icon>
                         </IconsContainer>
                     ) : (

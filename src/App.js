@@ -9,7 +9,6 @@ import { client, darkModeVar, isLoggedInVar } from "./apollo";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme, GlobalStyles } from "./styles";
 import routes from "./screen/routes";
-import Header from "./components/Header";
 import { HelmetProvider } from "react-helmet-async";
 
 

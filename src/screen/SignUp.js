@@ -38,14 +38,14 @@ function SignUp() {
     const history = useHistory();
     const onCompleted = (data) => {
         const {username, password} = getValues()
-        const {createAccount : {ok, error},
+        const {createAccount : {ok},
         } = data;
         if(!ok) {
             return;
         }
         history.push(routes.home, {message:"회원가입이 완료되었습니다! 로그인을 해주세요.", username, password});
     }
-    const {register, handleSubmit, errors, setError, formState, getValues} = useForm(
+    const {register, handleSubmit, formState, getValues} = useForm(
         {mode: "onChange"}
     );
 
